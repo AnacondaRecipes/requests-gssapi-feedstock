@@ -39,7 +39,7 @@ test:
     - pip check
     - python -m pip show requests-gssapi
     # run tests
-    - python -m pytest -ra -v tests/
+    - pytest -vv tests/
 
 about:
   home: https://github.com/pythongssapi/requests-gssapi

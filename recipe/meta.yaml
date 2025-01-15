@@ -10,39 +10,43 @@ source:
   sha256: 4d52bf8c2aa2a829130efcca85c14943fdd0aa75455aab985b2b8726159c20ca
 
 build:
-  number: 1
-  noarch: python
-  script: {{ PYTHON }} -m pip install . -vv
+  number: 0
+  script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
+  skip: true  # [py<38]
 
 requirements:
   host:
     - pip
-    - python {{ python_min }}
+    - python
     - setuptools
   run:
-    - python >={{ python_min }}
+    - python
     - python-gssapi
     - requests >=1.1.0
 
 test:
+  source_files:
+    - tests
   requires:
     - pip
     - pytest
-    - python {{ python_min }}
+    - python >=3.8
   source_files:
     - tests
   commands:
     # check requirements
-    - python -m pip check
+    - pip check
     - python -m pip show requests-gssapi
     # run tests
     - python -m pytest -ra -v tests/
 
 about:
   home: https://github.com/pythongssapi/requests-gssapi
-  dev_url: https://github.com/pythongssapi/requests-gssapi.git
+  dev_url: https://github.com/pythongssapi/requests-gssapi
+  doc_url: https://github.com/pythongssapi/requests-gssapi/blob/main/README.rst
   summary: A GSSAPI authentication handler for python-requests
   license: ISC
+  license_family: OTHER
   license_file: LICENSE
   description: |
     Requests is an HTTP library, written in Python, for human beings.
